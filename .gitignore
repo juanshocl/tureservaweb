@@ -1,0 +1,13 @@
+<<<<<<< HEAD
+node_modules
+dist
+.tmp
+bower_components
+test/bower_components
+=======
+/node_modules
+/dist
+/.tmp
+/.sass-cache
+/bower_components
+>>>>>>> 12308435ce8fe0abdc84507d22b9152596e7b007
