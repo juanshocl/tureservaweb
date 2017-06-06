@@ -35,6 +35,73 @@
           }).data('datepicker');
         });
       </script>
+    <script type="text/javascript">
+$(function () {
+    $('.button-checkbox').each(function () {
+
+        // Settings
+        var $widget = $(this),
+            $button = $widget.find('button'),
+            $checkbox = $widget.find('input:checkbox'),
+            color = $button.data('color'),
+            settings = {
+                on: {
+                    icon: 'glyphicon glyphicon-check'
+                },
+                off: {
+                    icon: 'glyphicon glyphicon-unchecked'
+                }
+            };
+
+        // Event Handlers
+        $button.on('click', function () {
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $button.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $button.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+            // Update the button's color
+            if (isChecked) {
+                $button
+                    .removeClass('.btn-info')
+                    .addClass('btn-' + color + ' active');
+            }
+            else {
+                $button
+                    .removeClass('btn-' + color + ' active')
+                    .addClass('btn-info');
+            }
+        }
+
+        // Initialization
+        function init() {
+
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($button.find('.state-icon').length == 0) {
+                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+            }
+        }
+        init();
+    });
+});
+        </script>
 </head>
 <body>
 	<header>
@@ -98,13 +165,13 @@
                         <form role="form">
                           <div class="col-md-4">
                             <div class="form-group">
-                              <label class="sr-only" for="where">Location</label>
+                              <label class="sr-only" for="where">Ubicacion</label>
                               <input type="text" class="form-control" id="location" placeholder="Donde Quieres Ir">
                             </div>
                             </div>
                             <div class="col-md-4">                          
                              <div class="form-group">
-                              <label class="sr-only" for="email">Location</label>
+                              <label class="sr-only" for="email">E-Mail</label>
                               <input type="email" class="form-control" id="location" placeholder="E-Mail">
                             </div>
                           </div>
@@ -126,28 +193,28 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-2">
+                          <div class="col-md-6">
                             <div class="form-group">
                               <label class="sr-only" for="guest">Guest</label>
                               <select id="guest" name="guest" class="form-control">
-                                  <option value="1">1 Guest</option>
-                                  <option value="2">2 Guests</option>
-                                  <option value="3">3 Guests</option>
-                                  <option value="4">4 Guests</option>
-                                  <option value="5">5 Guests</option>
-                                  <option value="6">6 Guests</option>
-                                  <option value="7">7 Guests</option>
-                                  <option value="8">8 Guests</option>
-                                  <option value="9">9 Guests</option>
-                                  <option value="10">10 Guests</option>
-                                  <option value="11">11 Guests</option>
-                                  <option value="12">12 Guests</option>
-                                  <option value="13">13 Guests</option>
-                                  <option value="14">14 Guests</option>
-                                  <option value="15">15 Guests</option>
-                                  <option value="16">16+ Guests</option>
+                                  <option value="1">1 Huésped</option>
+                                  <option value="2">2 Huésped</option>
+                                  <option value="3">3 Huésped</option>
+                                  <option value="4">4 Huésped</option>
+                                  <option value="5">5 Huésped</option>
+                                  <option value="6">6 Huésped</option>
+                                  <option value="7">7 Huésped</option>
+                                  <option value="8">8 Huésped</option>
+                                  <option value="9">9 Huésped</option>
+                                  <option value="10">10+ Huésped</option>
                               </select>
                             </div>
+                          </div>
+                          <div class="col-md-2">
+                            <span class="button-checkbox">
+                                <button type="button" class="btn" data-color="primary">Mascotas?</button>
+                                <input type="checkbox" class="hidden" />
+                            </span>
                           </div>
                           <div class="col-md-2">
                             <button type="submit" class="btn btn-default btn-primary">Buscar</button>
@@ -159,7 +226,7 @@
               </div>
             </div>
           </div>
-        <div class="container">
+        <div class="container galeria">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="page-header">
