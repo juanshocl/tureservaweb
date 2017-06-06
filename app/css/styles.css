@@ -21,6 +21,7 @@ body {
 }
 .search {
 	margin-top: -25%;
+    margin-bottom: 230px;
 }
 .search .form-section{
 	background:rgba(0,0,0,0.6);
