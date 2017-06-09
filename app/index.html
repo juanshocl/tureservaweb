@@ -1,8 +1,9 @@
 <html lang="es">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Tu Reserva OnLine</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Tu Reserva OnLine</title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
     <link href="css/datepicker.css" rel="stylesheet">
@@ -10,127 +11,128 @@
     <script src='js/bootstrap.js'></script>
     <script src="js/bootstrap-datepicker.js"></script>
     <script type="text/javascript">
-        $(window).ready(function(){
-          var nowTemp = new Date();
-          var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-          var checkin = $('#checkin').datepicker({
-            onRender: function(date) {
-              return date.valueOf() < now.valueOf() ? 'disabled' : '';
-            }
-          }).on('changeDate', function(ev) {
-            if (ev.date.valueOf() > checkout.date.valueOf()) {
-              var newDate = new Date(ev.date)
-              newDate.setDate(newDate.getDate() + 1);
-              checkout.setValue(newDate);
-            }
-            checkin.hide();
-            $('#checkout')[0].focus();
-          }).data('datepicker');
-          var checkout = $('#checkout').datepicker({
-            onRender: function(date) {
-              return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
-            }
-          }).on('changeDate', function(ev) {
-            checkout.hide();
-          }).data('datepicker');
-        });
-      </script>
-    <script type="text/javascript">
-$(function () {
-    $('.button-checkbox').each(function () {
-
-        // Settings
-        var $widget = $(this),
-            $button = $widget.find('button'),
-            $checkbox = $widget.find('input:checkbox'),
-            color = $button.data('color'),
-            settings = {
-                on: {
-                    icon: 'glyphicon glyphicon-check'
-                },
-                off: {
-                    icon: 'glyphicon glyphicon-unchecked'
+        $(window).ready(function() {
+            var nowTemp = new Date();
+            var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+            var checkin = $('#checkin').datepicker({
+                onRender: function(date) {
+                    return date.valueOf() < now.valueOf() ? 'disabled' : '';
                 }
-            };
-
-        // Event Handlers
-        $button.on('click', function () {
-            $checkbox.prop('checked', !$checkbox.is(':checked'));
-            $checkbox.triggerHandler('change');
-            updateDisplay();
+            }).on('changeDate', function(ev) {
+                if (ev.date.valueOf() > checkout.date.valueOf()) {
+                    var newDate = new Date(ev.date)
+                    newDate.setDate(newDate.getDate() + 1);
+                    checkout.setValue(newDate);
+                }
+                checkin.hide();
+                $('#checkout')[0].focus();
+            }).data('datepicker');
+            var checkout = $('#checkout').datepicker({
+                onRender: function(date) {
+                    return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+                }
+            }).on('changeDate', function(ev) {
+                checkout.hide();
+            }).data('datepicker');
         });
-        $checkbox.on('change', function () {
-            updateDisplay();
+
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            $('.button-checkbox').each(function() {
+
+                // Settings
+                var $widget = $(this),
+                    $button = $widget.find('button'),
+                    $checkbox = $widget.find('input:checkbox'),
+                    color = $button.data('color'),
+                    settings = {
+                        on: {
+                            icon: 'glyphicon glyphicon-check'
+                        },
+                        off: {
+                            icon: 'glyphicon glyphicon-unchecked'
+                        }
+                    };
+
+                // Event Handlers
+                $button.on('click', function() {
+                    $checkbox.prop('checked', !$checkbox.is(':checked'));
+                    $checkbox.triggerHandler('change');
+                    updateDisplay();
+                });
+                $checkbox.on('change', function() {
+                    updateDisplay();
+                });
+
+                // Actions
+                function updateDisplay() {
+                    var isChecked = $checkbox.is(':checked');
+
+                    // Set the button's state
+                    $button.data('state', (isChecked) ? "on" : "off");
+
+                    // Set the button's icon
+                    $button.find('.state-icon')
+                        .removeClass()
+                        .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+                    // Update the button's color
+                    if (isChecked) {
+                        $button
+                            .removeClass('.btn-info')
+                            .addClass('btn-' + color + ' active');
+                    } else {
+                        $button
+                            .removeClass('btn-' + color + ' active')
+                            .addClass('btn-info');
+                    }
+                }
+
+                // Initialization
+                function init() {
+
+                    updateDisplay();
+
+                    // Inject the icon if applicable
+                    if ($button.find('.state-icon').length == 0) {
+                        $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+                    }
+                }
+                init();
+            });
         });
-
-        // Actions
-        function updateDisplay() {
-            var isChecked = $checkbox.is(':checked');
-
-            // Set the button's state
-            $button.data('state', (isChecked) ? "on" : "off");
-
-            // Set the button's icon
-            $button.find('.state-icon')
-                .removeClass()
-                .addClass('state-icon ' + settings[$button.data('state')].icon);
-
-            // Update the button's color
-            if (isChecked) {
-                $button
-                    .removeClass('.btn-info')
-                    .addClass('btn-' + color + ' active');
-            }
-            else {
-                $button
-                    .removeClass('btn-' + color + ' active')
-                    .addClass('btn-info');
-            }
-        }
-
-        // Initialization
-        function init() {
-
-            updateDisplay();
-
-            // Inject the icon if applicable
-            if ($button.find('.state-icon').length == 0) {
-                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
-            }
-        }
-        init();
-    });
-});
-        </script>
+    </script>
 </head>
+
 <body>
-	<header>
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-				<!-- Encabezado de nuestro Menu -->
-				<div class="navbar-header">
-					<a href="#" class="navbar-brand">Tu Reserva OnLine</a>
-					<!-- Boton hamburguesa, solo visible en dispositivos moviles -->
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#btn-colapsar">
+    <header>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <!-- Encabezado de nuestro Menu -->
+                <div class="navbar-header">
+                    <a href="#" class="navbar-brand">Tu Reserva OnLine</a>
+                    <!-- Boton hamburguesa, solo visible en dispositivos moviles -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#btn-colapsar">
 						<span class="sr-only">Navegacion</span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-				</div>
+                </div>
 
-				<!-- Elementos del Menu -->
-				<!-- Links y formulario -->
-				<div class="collapse navbar-collapse" id="btn-colapsar">
+                <!-- Elementos del Menu -->
+                <!-- Links y formulario -->
+                <div class="collapse navbar-collapse" id="btn-colapsar">
 
-					<!-- Links del Menu -->
-					<ul class="nav navbar-nav">
-					   <li class="active"><a href="#">Home</a></li>
-                       <li><a href="#about">Nosotros</a></li>
-                       <li><a href="#contact">Contacto</a></li>
-					</ul>
-					<!-- Formulario de Busqueda -->
-<!--
+                    <!-- Links del Menu -->
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#about">Nosotros</a></li>
+                        <li><a href="#contact">Contacto</a></li>
+                    </ul>
+                    <!-- Formulario de Busqueda -->
+                    <!--
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -153,8 +155,8 @@ $(function () {
 				</ul>
 				
 -->
-                     
-                      <!--
+
+                    <!--
                	    <form class="navbar-form navbar-right" action="" role="search">
 					    <div class="form-group">
 					        
@@ -163,116 +165,118 @@ $(function () {
 						</div>
 					</form>
 -->
-<!-- Barra Login a la derecha -->               
-               
-        <ul class="nav navbar-nav navbar-right">
-        <li><p class="navbar-text">¿Ya tienes una cuenta?</p></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>iniciar sesión</b> <span class="caret"></span></a>
-			<ul id="login-dp" class="dropdown-menu">
-				<li>
-					 <div class="row">
-							<div class="col-md-12">
-								Iniciar Sesion con
-								<div class="social-buttons">
-									<a href="#" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
-									<a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
-								</div>
-                                o ingresa tus datos de acceso
-								 <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
-										<div class="form-group">
-											 <label class="sr-only" for="exampleInputEmail2">Email</label>
-											 <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
-										</div>
-										<div class="form-group">
-											 <label class="sr-only" for="exampleInputPassword2">Password</label>
-											 <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
-                                             <div class="help-block text-right"><a href="">¿Olvidaste tu Contraseña ?</a></div>
-										</div>
-										<div class="form-group">
-											 <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
-										</div>
-										<div class="checkbox">
-											 <label>
+                    <!-- Barra Login a la derecha -->
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <p class="navbar-text">¿Ya tienes una cuenta?</p>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>iniciar sesión</b> <span class="caret"></span></a>
+                            <ul id="login-dp" class="dropdown-menu">
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Iniciar Sesion con
+                                            <div class="social-buttons">
+                                                <a href="#" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
+                                                <a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
+                                            </div>
+                                            o ingresa tus datos de acceso 
+                                            <form class="form" role="form" method="get" action="/admin.html" accept-charset="UTF-8" id="login-nav">
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="exampleInputEmail2">Email</label>
+                                                    <input type="email" class="form-control" id="usuario" placeholder="Email address" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="exampleInputPassword2">Password</label>
+                                                    <input type="password" class="form-control" id="password" placeholder="Password" required>
+                                                    <div class="help-block text-right"><a href="">¿Olvidaste tu Contraseña ?</a></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-primary btn-block" >Ingresar</button>
+                                                </div>
+                                                <div class="checkbox">
+                                                <label>
 											 <input type="checkbox"> Recordarme
 											 </label>
-										</div>
-								 </form>
-							</div>
-							<div class="bottom text-center">
-								¿Nuevo Usuario? <a href="#"><b>Registrate</b></a>
-							</div>
-					 </div>
-				</li>
-			</ul>
-        </li>
-      </ul>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="bottom text-center">
+                                            ¿Nuevo Usuario? <a href="#"><b>Registrate</b></a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-			</div>				
-		</nav>
-	</header>
+            </div>
+        </nav>
+    </header>
 
-	<section class="main">
-		<!-- Slider / Carousel -->
+    <section class="main">
+        <!-- Slider / Carousel -->
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
-          <div class="carousel-inner">
-            <div class="item active">
-              <img src="http://lorempixel.com/1200/400/city/1" alt="First slide">   
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="http://lorempixel.com/1200/400/city/1" alt="First slide">
+                </div>
+                <div class="item">
+                    <img src="http://lorempixel.com/1200/400/city/2" alt="Second slide">
+                </div>
+                <div class="item">
+                    <img src="http://lorempixel.com/1200/400/city/3" alt="Third slide">
+                </div>
             </div>
-            <div class="item">
-              <img src="http://lorempixel.com/1200/400/city/2" alt="Second slide">
-            </div>
-            <div class="item">
-              <img src="http://lorempixel.com/1200/400/city/3" alt="Third slide">
-            </div>
-          </div>
-          <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
-          <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
         </div>
-        
-    <!-- Cuadro de Busqueda -->
+
+        <!-- Cuadro de Busqueda -->
 
         <div class="search">
             <div class="container">
-              <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                  <div class="form-section">
-                    <div class="row">
-                        <form role="form">
-                          <div class="col-md-4">
-                            <div class="form-group">
-                              <label class="sr-only" for="where">Ubicacion</label>
-                              <input type="text" class="form-control" id="location" placeholder="Donde Quieres Ir">
-                            </div>
-                            </div>
-                            <div class="col-md-4">                          
-                             <div class="form-group">
-                              <label class="sr-only" for="email">E-Mail</label>
-                              <input type="email" class="form-control" id="location" placeholder="E-Mail">
-                            </div>
-                          </div>
-                          <div class="col-md-2">
-                            <div class="form-group">
-                              <label class="sr-only" for="checkin">Check in</label>
-                              <div class="input-group">
-                                <input type="text" class="form-control" id="checkin" placeholder="Ingreso">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-2">
-                            <div class="form-group">
-                              <label class="sr-only" for="checkout">Check out</label>
-                              <div class="input-group">
-                                <input type="text" class="form-control" id="checkout" placeholder="Salida">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label class="sr-only" for="guest">Guest</label>
-                              <select id="guest" name="guest" class="form-control">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="form-section">
+                            <div class="row">
+                                <form role="form">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="where">Ubicacion</label>
+                                            <input type="text" class="form-control" id="location" placeholder="Donde Quieres Ir">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="email">E-Mail</label>
+                                            <input type="email" class="form-control" id="location" placeholder="E-Mail">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="checkin">Check in</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="checkin" placeholder="Ingreso">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="checkout">Check out</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="checkout" placeholder="Salida">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="guest">Guest</label>
+                                            <select id="guest" name="guest" class="form-control">
                                   <option value="1">1 Huésped</option>
                                   <option value="2">2 Huésped</option>
                                   <option value="3">3 Huésped</option>
@@ -284,205 +288,206 @@ $(function () {
                                   <option value="9">9 Huésped</option>
                                   <option value="10">10+ Huésped</option>
                               </select>
-                            </div>
-                          </div>
-                          <div class="col-md-2">
-                            <span class="button-checkbox">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span class="button-checkbox">
                                 <button type="button" class="btn" data-color="primary">Mascotas?</button>
                                 <input type="checkbox" class="hidden" />
                             </span>
-                          </div>
-                          <div class="col-md-2">
-                            <button type="submit" class="btn btn-default btn-primary">Buscar</button>
-                          </div>
-                        </form>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-default btn-primary">Buscar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-          
-          <!-- Galeria -->
+        </div>
+
+        <!-- Galeria -->
         <div class="container galeria">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="page-header">
-						<h1 class="text-center">Galeria</h1>
-					</div>
-				</div>
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                        <div class="thumbnail">
-                            <a href="#">
-                                <img src="http://lorempixel.com/242/200/city/1" alt="">
-                            </a>
-                            <div class="caption">
-                                <h3 class="Ciudad">ARICA</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>
-                                    <a href="#" class="btn btn-primary">Disponible</a>
-                                    <a href="#" class="btn btn-info">+info</a>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-header">
+                        <h1 class="text-center">Galeria</h1>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <a href="#">
+                            <img src="http://lorempixel.com/242/200/city/1" alt="">
+                        </a>
+                        <div class="caption">
+                            <h3 class="Ciudad">ARICA</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>
+                                <a href="#" class="btn btn-primary">Disponible</a>
+                                <a href="#" class="btn btn-info">+info</a>
 
-                                </p>
-                                <p>
-                                    <a href="#" class="btn btn-success">Reservar</a>
-                                </p>
-                            </div>
+                            </p>
+                            <p>
+                                <a href="#" class="btn btn-success">Reservar</a>
+                            </p>
                         </div>
                     </div>
-                       <div class="col-xs-12 col-sm-6 col-md-3">
-                        <div class="thumbnail">
-                            <a href="#">
-                                <img src="http://lorempixel.com/242/200/city/2" alt="">
-                            </a>
-                            <div class="caption">
-                                <h3 class="Ciudad">CONCON</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                              <p>
-                                    <a href="#" class="btn btn-primary">Disponible</a>
-                                    <a href="#" class="btn btn-info">+info</a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <a href="#">
+                            <img src="http://lorempixel.com/242/200/city/2" alt="">
+                        </a>
+                        <div class="caption">
+                            <h3 class="Ciudad">CONCON</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>
+                                <a href="#" class="btn btn-primary">Disponible</a>
+                                <a href="#" class="btn btn-info">+info</a>
 
-                                </p>
-                                <p>
-                                    <a href="#" class="btn btn-success">Reservar</a>
-                                </p>
-                            </div>
+                            </p>
+                            <p>
+                                <a href="#" class="btn btn-success">Reservar</a>
+                            </p>
                         </div>
                     </div>
-                       <div class="col-xs-12 col-sm-6 col-md-3">
-                        <div class="thumbnail">
-                            <a href="#">
-                                <img src="http://lorempixel.com/242/200/city/3" alt="">
-                            </a>
-                            <div class="caption">
-                                <h3 class="Ciudad">IQUIQUE</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                              <p>
-                                    <a href="#" class="btn btn-primary">Disponible</a>
-                                    <a href="#" class="btn btn-info">+info</a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <a href="#">
+                            <img src="http://lorempixel.com/242/200/city/3" alt="">
+                        </a>
+                        <div class="caption">
+                            <h3 class="Ciudad">IQUIQUE</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>
+                                <a href="#" class="btn btn-primary">Disponible</a>
+                                <a href="#" class="btn btn-info">+info</a>
 
-                                </p>
-                                <p>
-                                    <a href="#" class="btn btn-success">Reservar</a>
-                                </p>
-                            </div>
+                            </p>
+                            <p>
+                                <a href="#" class="btn btn-success">Reservar</a>
+                            </p>
                         </div>
                     </div>
-                       <div class="col-xs-12 col-sm-6 col-md-3">
-                        <div class="thumbnail">
-                            <a href="#">
-                                <img src="http://lorempixel.com/242/200/city/4" alt="">
-                            </a>
-                            <div class="caption">
-                                <h3 class="Ciudad">SANTIAGO</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>
-                                    <a href="#" class="btn btn-primary">Disponible</a>
-                                    <a href="#" class="btn btn-info">+info</a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <a href="#">
+                            <img src="http://lorempixel.com/242/200/city/4" alt="">
+                        </a>
+                        <div class="caption">
+                            <h3 class="Ciudad">SANTIAGO</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>
+                                <a href="#" class="btn btn-primary">Disponible</a>
+                                <a href="#" class="btn btn-info">+info</a>
 
-                                </p>
-                                <p>
-                                    <a href="#" class="btn btn-success">Reservar</a>
-                                </p>
-                            </div>
+                            </p>
+                            <p>
+                                <a href="#" class="btn btn-success">Reservar</a>
+                            </p>
                         </div>
                     </div>
-                       <div class="col-xs-12 col-sm-6 col-md-3">
-                        <div class="thumbnail">
-                            <a href="#">
-                                <img src="http://lorempixel.com/242/200/city/5" alt="">
-                            </a>
-                            <div class="caption">
-                                <h3 class="Ciudad">CONCEPCION</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                              <p>
-                                    <a href="#" class="btn btn-primary">Disponible</a>
-                                    <a href="#" class="btn btn-info">+info</a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <a href="#">
+                            <img src="http://lorempixel.com/242/200/city/5" alt="">
+                        </a>
+                        <div class="caption">
+                            <h3 class="Ciudad">CONCEPCION</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>
+                                <a href="#" class="btn btn-primary">Disponible</a>
+                                <a href="#" class="btn btn-info">+info</a>
 
-                                </p>
-                                <p>
-                                    <a href="#" class="btn btn-success">Reservar</a>
-                                </p>
-                            </div>
+                            </p>
+                            <p>
+                                <a href="#" class="btn btn-success">Reservar</a>
+                            </p>
                         </div>
                     </div>
-                       <div class="col-xs-12 col-sm-6 col-md-3">
-                        <div class="thumbnail">
-                            <a href="#">
-                                <img src="http://lorempixel.com/242/200/city/6" alt="">
-                            </a>
-                            <div class="caption">
-                                <h3 class="Ciudad">EL QUISCO</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                              <p>
-                                    <a href="#" class="btn btn-primary">Disponible</a>
-                                    <a href="#" class="btn btn-info">+info</a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <a href="#">
+                            <img src="http://lorempixel.com/242/200/city/6" alt="">
+                        </a>
+                        <div class="caption">
+                            <h3 class="Ciudad">EL QUISCO</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>
+                                <a href="#" class="btn btn-primary">Disponible</a>
+                                <a href="#" class="btn btn-info">+info</a>
 
-                                </p>
-                                <p>
-                                    <a href="#" class="btn btn-success">Reservar</a>
-                                </p>
-                            </div>
+                            </p>
+                            <p>
+                                <a href="#" class="btn btn-success">Reservar</a>
+                            </p>
                         </div>
                     </div>
-                       <div class="col-xs-12 col-sm-6 col-md-3">
-                        <div class="thumbnail">
-                            <a href="#">
-                                <img src="http://lorempixel.com/242/200/city/7" alt="">
-                            </a>
-                            <div class="caption">
-                                <h3 class="Ciudad">EL TABO</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                              <p>
-                                    <a href="#" class="btn btn-primary">Disponible</a>
-                                    <a href="#" class="btn btn-info">+info</a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <a href="#">
+                            <img src="http://lorempixel.com/242/200/city/7" alt="">
+                        </a>
+                        <div class="caption">
+                            <h3 class="Ciudad">EL TABO</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>
+                                <a href="#" class="btn btn-primary">Disponible</a>
+                                <a href="#" class="btn btn-info">+info</a>
 
-                                </p>
-                                <p>
-                                    <a href="#" class="btn btn-success">Reservar</a>
-                                </p>
-                            </div>
+                            </p>
+                            <p>
+                                <a href="#" class="btn btn-success">Reservar</a>
+                            </p>
                         </div>
                     </div>
-                       <div class="col-xs-12 col-sm-6 col-md-3">
-                        <div class="thumbnail">
-                            <a href="#">
-                                <img src="http://lorempixel.com/242/200/city/8" alt="">
-                            </a>
-                            <div class="caption">
-                                <h3 class="Ciudad">VIÑA DEL MAR</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                              <p>
-                                    <a href="#" class="btn btn-primary">Disponible</a>
-                                    <a href="#" class="btn btn-info">+info</a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <a href="#">
+                            <img src="http://lorempixel.com/242/200/city/8" alt="">
+                        </a>
+                        <div class="caption">
+                            <h3 class="Ciudad">VIÑA DEL MAR</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>
+                                <a href="#" class="btn btn-primary">Disponible</a>
+                                <a href="#" class="btn btn-info">+info</a>
 
-                                </p>
-                                <p>
-                                    <a href="#" class="btn btn-success">Reservar</a>
-                                </p>
-                            </div>
+                            </p>
+                            <p>
+                                <a href="#" class="btn btn-success">Reservar</a>
+                            </p>
                         </div>
                     </div>
+                </div>
 
-			</div>
-		</div>
-	</section>
+            </div>
+        </div>
+    </section>
 
-	<footer>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<hr>
-					<p class="pull-left">
-						TuReservaOnline
-						<a href="#">Acerca de</a>
-						<a href="#">Contacto</a>
-					</p>
-					<p class="pull-right"><a href="#">Subir en Pagina</a></p>
-					<br>
-				</div>
-			</div>
-		</div>
-	</footer>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                    <p class="pull-left">
+                        TuReservaOnline
+                        <a href="#">Acerca de</a>
+                        <a href="#">Contacto</a>
+                    </p>
+                    <p class="pull-right"><a href="#">Subir en Pagina</a></p>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
+
 </html>
